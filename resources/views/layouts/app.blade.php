@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html  lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
+        <meta content="text/html" charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="robots" content="noindex">
@@ -14,6 +15,7 @@
         <livewire:styles />
     </head>
     <body class="font-sans">
+        
         <a href="#main" class="sr-only">
             Skip to content
         </a>

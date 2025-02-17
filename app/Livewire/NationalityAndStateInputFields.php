@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Nnjeim\World\World;
+use Illuminate\Support\Collection;
 
 class NationalityAndStateInputFields extends Component
 {
@@ -16,59 +17,76 @@ class NationalityAndStateInputFields extends Component
     public $state;
 
     protected $rules = [
-        'nationality' => 'string',
-        'state'       => 'string',
+        'nationality' => 'nullable|string|max:255',
+        'state'       => 'nullable|string|max:255',
     ];
 
     public function mount()
     {
-        // @phpstan-ignore-next-line
-        $this->nationalities = World::countries()->data->pluck('name');
+        // Default nationality and states for Cambodia
+        $this->nationalities = collect(['Khmer']);
+        $this->states = collect([
+            ['name' => 'Banteay Meanchey'],
+            ['name' => 'Battambang'],
+            ['name' => 'Kampong Cham'],
+            ['name' => 'Kampong Chhnang'],
+            ['name' => 'Kampong Speu'],
+            ['name' => 'Kampong Thom'],
+            ['name' => 'Kampot'],
+            ['name' => 'Kandal'],
+            ['name' => 'Kep'],
+            ['name' => 'Koh Kong'],
+            ['name' => 'Kratie'],
+            ['name' => 'Mondulkiri'],
+            ['name' => 'Oddar Meanchey'],
+            ['name' => 'Pailin'],
+            ['name' => 'Phnom Penh'],
+            ['name' => 'Preah Sihanouk'],
+            ['name' => 'Preah Vihear'],
+            ['name' => 'Prey Veng'],
+            ['name' => 'Pursat'],
+            ['name' => 'Ratanakiri'],
+            ['name' => 'Siem Reap'],
+            ['name' => 'Stung Treng'],
+            ['name' => 'Svay Rieng'],
+            ['name' => 'Takeo'],
+            ['name' => 'Tbong Khmum'],
+        ]);
 
-        //set nationality to null if not found
-        if ($this->nationality != null && !in_array($this->nationality, $this->nationalities->all())) {
-            $this->nationality = null;
-        }
+        $this->state = $this->states[0]['name'];
     }
 
     public function updatedNationality()
     {
-        // $this->states = collect(World::where('name.common' , $this->nationality)->first()->hydrateStates()->states->pluck('name'));
-        $this->states = collect(World::countries([
-            'fields'  => 'states',
-            'filters' => [
-                'name' => $this->nationality,
-            ],
-        ])->data->pluck('states')->first());
-        if ($this->states->isEmpty()) {
-            $this->states = collect([['name' => $this->nationality]]);
-        }
-        $this->state = $this->states[0]['name'];
-
+        $this->loadStatesForNationality();
         $this->dispatch('nationality-updated', ['nationality' => $this->nationality]);
         $this->dispatch('state-updated', ['state' => $this->state]);
     }
 
-    public function loadInitialStates()
+    public function loadStatesForNationality()
     {
-        if ($this->nationality == null) {
-            $this->nationality = $this->nationalities->first();
-        }
-        $this->states = collect(World::countries([
-            'fields'  => 'states',
-            'filters' => [
-                'name' => $this->nationality,
-            ],
-        ])->data->pluck('states')->first());
-        if ($this->states->isEmpty()) {
-            $this->states = collect([['name' => $this->nationality]]);
-        }
-        if ($this->state == null || in_array($this->state, $this->states->all())) {
-            $this->state = $this->states[0]['name'];
+        if (empty($this->nationality)) {
+            $this->states = collect();
+            $this->state = null;
+            return;
         }
 
-        $this->dispatch('nationality-updated', ['nationality' => $this->nationality]);
-        $this->dispatch('state-updated', ['state' => $this->state]);
+        try {
+            $result = World::countries([
+                'fields'  => 'states',
+                'filters' => ['name' => $this->nationality],
+            ])->data;
+
+            $states = collect($result->pluck('states')->first() ?? []);
+
+            // If no states are returned, use the nationality itself as a default "state"
+            $this->states = $states->isNotEmpty() ? $states : collect([['name' => $this->nationality]]);
+        } catch (\Exception $e) {
+            // Handle errors gracefully by falling back to an empty list
+            $this->states = collect();
+        }
+
+        $this->state = $this->states->first()['name'] ?? null;
     }
 
     public function updatedState()

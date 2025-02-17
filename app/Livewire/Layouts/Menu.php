@@ -24,14 +24,70 @@ class Menu extends Component
                 'text'  => 'User Profile',
                 'route' => 'profile.show',
             ],
-            
             ['header' => 'Administration', 'can' => 'header-administrate'],
             [
-                'type'  => 'menu-item',
-                'icon'  => 'fas fa-cog',
-                'text'  => 'School Settings',
-                'route' => 'schools.settings',
-                'can'   => 'manage school settings',
+                'type'    => 'menu-item',
+                'text'    => 'Students',
+                'icon'    => 'fas fa-user',
+                'can'     => 'menu-student',
+                'submenu' => [
+                    [
+                        'type'  => 'menu-item',
+                        'text'  => 'View students',
+                        'route' => 'students.index',
+                        'can'   => 'read student',
+                    ],
+                    [
+                        'type'  => 'menu-item',
+                        'text'  => 'Create student',
+                        'route' => 'students.create',
+                        'can'   => 'create student',
+                    ],
+                    [
+                        'type'  => 'menu-item',
+                        'text'  => 'Promote students',
+                        'route' => 'students.promote',
+                        'can'   => 'promote student',
+                    ],
+                    [
+                        'type'  => 'menu-item',
+                        'text'  => 'Manage promotions',
+                        'route' => 'students.promotions',
+                        'can'   => 'read promotion',
+                    ],
+                    [
+                        'type'  => 'menu-item',
+                        'text'  => 'Graduate students',
+                        'route' => 'students.graduate',
+                        'can'   => 'graduate student',
+                    ],
+                    [
+                        'type'  => 'menu-item',
+                        'text'  => 'Manage graduations',
+                        'route' => 'students.graduations',
+                        'can'   => 'view graduations',
+                    ],
+                ],
+            ],
+            [
+                'type'    => 'menu-item',
+                'text'    => 'Teachers',
+                'icon'    => 'fas fa-user',
+                'can'     => 'menu-teacher',
+                'submenu' => [
+                    [
+                        'type'  => 'menu-item',
+                        'text'  => 'View teachers',
+                        'route' => 'teachers.index',
+                        'can'   => 'read teacher',
+                    ],
+                    [
+                        'type'  => 'menu-item',
+                        'text'  => 'Create teacher',
+                        'route' => 'teachers.create',
+                        'can'   => 'create teacher',
+                    ],
+                ],
             ],
             [
                 'type'    => 'menu-item',
@@ -82,110 +138,6 @@ class Menu extends Component
                         'text'  => 'Create section',
                         'route' => 'sections.create',
                         'can'   => 'create section',
-                    ],
-                ],
-            ],
-            [
-                'type'    => 'menu-item',
-                'text'    => 'Students',
-                'icon'    => 'fas fa-user',
-                'can'     => 'menu-student',
-                'submenu' => [
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'View students',
-                        'route' => 'students.index',
-                        'can'   => 'read student',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Create student',
-                        'route' => 'students.create',
-                        'can'   => 'create student',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Promote students',
-                        'route' => 'students.promote',
-                        'can'   => 'promote student',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Manage promotions',
-                        'route' => 'students.promotions',
-                        'can'   => 'read promotion',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Graduate students',
-                        'route' => 'students.graduate',
-                        'can'   => 'graduate student',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Manage graduations',
-                        'route' => 'students.graduations',
-                        'can'   => 'view graduations',
-                    ],
-                ],
-            ],
-            [
-                'type'    => 'menu-item',
-                'text'    => 'Account Applications',
-                'icon'    => 'fas fa-plus',
-                'can'     => 'menu-account-application',
-                'submenu' => [
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'View account applications',
-                        'route' => 'account-applications.index',
-                        'can'   => 'read applicant',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'View rejected applications',
-                        'route' => 'account-applications.rejected-applications',
-                        'can'   => 'read applicant',
-                    ],
-                ],
-            ],
-            [
-                'type'    => 'menu-item',
-                'text'    => 'Teachers',
-                'icon'    => 'fas fa-user',
-                'can'     => 'menu-teacher',
-                'submenu' => [
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'View teachers',
-                        'route' => 'teachers.index',
-                        'can'   => 'read teacher',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Create teacher',
-                        'route' => 'teachers.create',
-                        'can'   => 'create teacher',
-                    ],
-                ],
-            ],
-            [
-                'type'    => 'menu-item',
-                'text'    => 'Parents',
-                'icon'    => 'fas fa-user',
-                'can'     => 'menu-parent',
-                'submenu' => [
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'View parents',
-                        'route' => 'parents.index',
-                        'can'   => 'read parent',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Create parent',
-                        'route' => 'parents.create',
-                        'can'   => 'create parent',
                     ],
                 ],
             ],
@@ -461,6 +413,13 @@ class Menu extends Component
                         'can'   => 'create grade system',
                     ],
                 ],
+            ],
+            [
+                'type'  => 'menu-item',
+                'text'  => 'View Logs',
+                'route' => 'log-viewer.index',
+                'icon'  => 'fa fa-sticky-note',
+                'can' => 'view logs',
             ],
         ];
     }

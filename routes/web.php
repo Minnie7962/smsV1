@@ -1,6 +1,31 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\MyClassController;
+use App\Http\Controllers\ClassGroupController; 
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\AccountApplicationController;
+use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\FeeCategoryController; 
+use App\Http\Controllers\FeeInvoiceRecordController;
+use App\Http\Controllers\FeeInvoiceController;
+use App\Http\Controllers\FeeController;
+use App\Http\Controllers\SyllabusController;
+use App\Http\Controllers\TimetableController;
+use App\Http\Controllers\CustomTimetableItemController; 
+use App\Http\Controllers\TimetableTimeSlotController;
+use App\Http\Controllers\ExamRecordController;
+use App\Http\Controllers\ExamController; 
+use App\Http\Controllers\ExamSlotController;
+use App\Http\Controllers\GradeSystemController; 
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ParentController;
+use App\Http\Controllers\AcademicYearController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\NoticeController;
 
 /*
 |--------------------------------------------------------------------------

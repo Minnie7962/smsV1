@@ -18,15 +18,15 @@ class SchoolSeeder extends Seeder
         School::updateOrCreate(
             ['id' => 1],
             [
-                'name'     => 'Default School',
-                'address'  => 'School of Computing',
+                'name'     => 'សាលាបឋមសិក្សាតាម៉ា',
+                'address'  => 'Your school address',
                 'code'     => Str::Random(10),
-                'initials' => 'DSI',
+                'initials' => 'TPS',
             ]
         );
 
         School::factory()
-                ->count(3)
-                ->create();
+            ->count(3)
+            ->create();
     }
 }
