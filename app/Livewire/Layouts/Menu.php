@@ -143,26 +143,6 @@ class Menu extends Component
             ],
             [
                 'type'    => 'menu-item',
-                'text'    => 'Admins',
-                'icon'    => 'fas fa-user',
-                'can'     => 'menu-admin',
-                'submenu' => [
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'View admins',
-                        'route' => 'admins.index',
-                        'can'   => 'read admin',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Create admin',
-                        'route' => 'admins.create',
-                        'can'   => 'create admin',
-                    ],
-                ],
-            ],
-            [
-                'type'    => 'menu-item',
                 'text'    => 'Academic years',
                 'icon'    => 'fas fa-calendar',
                 'can'     => 'menu-academic-year',
@@ -198,50 +178,6 @@ class Menu extends Component
                         'text'  => 'Create semester',
                         'route' => 'semesters.create',
                         'can'   => 'create semester',
-                    ],
-                ],
-            ],
-            [
-                'type'    => 'menu-item',
-                'text'    => 'Fees',
-                'icon'    => 'fas fa-dollar',
-                'can'     => 'menu-fee',
-                'submenu' => [
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'View Fee Invoices',
-                        'route' => 'fee-invoices.index',
-                        'can'   => 'read fee invoice',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Create Fee Invoice',
-                        'route' => 'fee-invoices.create',
-                        'can'   => 'create fee invoice',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'View Fees',
-                        'route' => 'fees.index',
-                        'can'   => 'read fee',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Create Fee',
-                        'route' => 'fees.create',
-                        'can'   => 'create fee',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'View Fee Categories',
-                        'route' => 'fee-categories.index',
-                        'can'   => 'read fee category',
-                    ],
-                    [
-                        'type'  => 'menu-item',
-                        'text'  => 'Create Fee Category',
-                        'route' => 'fee-categories.create',
-                        'can'   => 'create fee category',
                     ],
                 ],
             ],

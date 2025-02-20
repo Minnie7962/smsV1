@@ -19,8 +19,8 @@ class ExamSeeder extends Seeder
             'name'        => 'Exam 1',
             'description' => 'Exam 1 description',
             'semester_id' => '1',
-            'start_date'  => '2020-01-01',
-            'stop_date'   => '2020-01-31',
+            'start_date'  => '2025-01-01',
+            'stop_date'   => '2025-01-31',
         ]);
 
         Exam::factory()->count(10)->create();
