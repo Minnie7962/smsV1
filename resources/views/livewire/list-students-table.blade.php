@@ -8,9 +8,7 @@
         </div>
         @unlessrole(['parent', 'student'])
             <livewire:datatable :model="App\Models\User::class" uniqueId="students-list-table" :filters="[['name' => 'students'], ['name' => 'inSchool'], ['name' => 'orderBy' , 'arguments' => ['name']], ['name' => 'has', 'arguments' => ['StudentRecord']], ['name' => 'with' , 'arguments' => ['studentRecord','studentRecord.section', 'studentRecord.myClass']]]" :columns="[
-                ['type' => 'image', 'property' => 'profile_photo_url'] , 
                 ['property' => 'name'] , 
-                ['property' => 'email'] , 
                 ['property' => 'admission_number' ,'relation' => 'studentRecord'] , 
                 ['property' => 'name', 'name' => 'Class' ,'relation' => 'studentRecord.myClass'] , 
                 ['property' => 'name', 'name' => 'section' ,'relation' => 'studentRecord.section'] , 
@@ -33,7 +31,6 @@
             ['name' => 'with' , 'arguments' => ['studentRecord','studentRecord.section', 'studentRecord.myClass']]]" 
             :columns="[
                 ['property' => 'name'] , 
-                ['property' => 'email'] , 
                 ['property' => 'admission_number' ,'relation' => 'studentRecord'] , 
                 ['property' => 'name', 'name' => 'Class' ,'relation' => 'studentRecord.myClass'] , 
                 ['property' => 'name', 'name' => 'section' ,'relation' => 'studentRecord.section'] , 

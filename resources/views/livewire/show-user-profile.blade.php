@@ -5,7 +5,6 @@
       </div>
       <h2 class="text-center text-3xl m-4">{{$user->name}}</h2>
       <div class="w-full md:w-8/12 m-auto">
-         <h4 class="text-left text-xl my-2">Personal information</h4>
          <x-show-table :body="[
                ['First Name' , $user->first_name],
                ['Last Name' , $user->last_name],
@@ -20,7 +19,7 @@
                ['Religion' , $user->religion],
                ['Blood Group' , $user->blood_group],
                ['Phone' , $user->phone],
-
+               
          ]"/>
       </div>
    </div>

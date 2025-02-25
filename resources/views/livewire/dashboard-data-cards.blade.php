@@ -2,7 +2,6 @@
     @hasanyrole('admin|super-admin')
     <div class="card">
         <div class="card-body">
-
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @can('read class group')
                     <x-info-box title="{{$classGroups}}" text="Class groups" colour="bg-orange-600"  text-colour="text-white" url="{{route('class-groups.index')}}" url-text="View class groups"/>
