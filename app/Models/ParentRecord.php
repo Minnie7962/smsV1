@@ -9,7 +9,7 @@ class ParentRecord extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id'];
+    protected $table = 'parent_records';
 
     /**
      * Get the user that owns the StudentRecord.
@@ -18,7 +18,7 @@ class ParentRecord extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -28,6 +28,6 @@ class ParentRecord extends Model
      */
     public function students()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Student::class, 'student_parent', 'parent_id', 'student_id');
     }
 }

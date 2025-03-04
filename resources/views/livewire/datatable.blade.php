@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row gap-4 items-center">
         <div class="flex gap-4 items-center overflow-scroll beautify-scrollbar">
             <label for="datatable-search-{{$uniqueId}}">Search</label>
-            <input id="datatable-search-{{$uniqueId}}" type="search" wire:model.live.sebounce.500ms="search" class="border-gray-500 dark:bg-inherit border rounded px-4 py-1 md:py-2">
+            <input id="datatable-search-{{$uniqueId}}" type="search" wire:model.live.debounce.500ms="search" class="border-gray-500 dark:bg-inherit border rounded px-4 py-1 md:py-2">
         </div>
         <select class="bg-white dark:bg-gray-800 px-4 py-2 border border-gray-500 rounded" wire:model.live="perPage">
             @foreach ([5,10,20,25,100] as $item)
@@ -40,7 +40,6 @@
                                             if (is_array($model)) {
                                                 $model = collect($model);
                                             }
-                                            
                                         @endphp
                                         <p class="{{$column['class'] ?? null}}">
                                             @if (array_key_exists('method', $column) && !empty($column['method']))
@@ -66,14 +65,14 @@
                                                     <x-dropdown >
                                                         @foreach ($column['links'] as $link)
                                                             @if (!isset($link['can']) || auth()->user()->can($link['can']))
-                                                                <a href="{{route($link['href'],array_merge(($link['pre-route-parameters'] ?? []),[$model->id], ($link['post-route-parameters'] ?? [])))}}" class="flex capitalize items-center justify-start gap-2 py-3 px-6 hover:bg-white hover:bg-opacity-20 "><i class="{{$link['icon'] ?? ''}}" aria-hidden="true"></i>{{$link['text']}}</a>
+                                                                <a href="{{isset($link['href']) ? route($link['href'],array_merge(($link['pre-route-parameters'] ?? []),[$model->id], ($link['post-route-parameters'] ?? []))) : '#'}}" class="flex capitalize items-center justify-start gap-2 py-3 px-6 hover:bg-white hover:bg-opacity-20 "><i class="{{$link['icon'] ?? ''}}" aria-hidden="true"></i>{{$link['text']}}</a>
                                                             @endif
                                                         @endforeach
                                                     </x-dropdown>
                                                 @elseif($column['type'] == 'boolean-switch')
                                                 <form action="{{route($column['action'], $model->id)}}" method="POST" x-data>
                                                     @csrf
-                                                    <x-toggle :name="$column['field']" :checked="$model?->{$column['property'] ?? $column['name']}  == true"  :label-checked-text="$column['true-statement'] ?? 'yes'" :label-unchecked-text="$column['false-statement']?? 'no'" @Change="$nextTick(() => $el.form.submit())"/>
+                                                    <x-toggle :name="$column['field']" :checked="$model?->{$column['property'] ?? $column['name']}  == true"  :label-checked-text="$column['true-statement'] ?? 'yes'" :label-unchecked-text="$column['false-statement']?? 'no'" @change="$nextTick(() => $el.form.submit())"/>
                                                 </form>
                                                 @elseif($column['type'] == 'image')
                                                     <div class="flex justify-center">

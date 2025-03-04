@@ -3,7 +3,7 @@
         <h3 class="card-title">Create exam </h3>
     </div>
     <div class="card-body">
-        <form action="{{route('exams.store')}}" method="POST" class="md:w-6/12">
+        <form method="POST" class="md:w-6/12">
             <x-display-validation-errors/>
             <p class="text-secondary">
                 {{__('All fields marked * are required')}}

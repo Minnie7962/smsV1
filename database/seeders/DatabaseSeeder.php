@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             SchoolSeeder::class,
             ClassGroupSeeder::class,
             MyClassSeeder::class,
-            SectionSeeder::class,
             UserSeeder::class,
             StudentSeeder::class,
             SubjectSeeder::class,
@@ -32,10 +31,8 @@ class DatabaseSeeder extends Seeder
             ExamSlotSeeder::class,
             ExamRecordSeeder::class,
             NoticeSeeder::class,
-            FeeCategorySeeder::class,
-            FeeSeeder::class,
-            FeeInvoiceSeeder::class,
-            FeeInvoiceRecordSeeder::class,
+            ParentSeeder::class,
+            SectionSeeder::class,
         ]);
     }
 }

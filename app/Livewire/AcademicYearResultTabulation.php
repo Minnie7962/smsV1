@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\MyClass;
-use App\Models\Section;
 use App\Services\MyClass\MyClassService;
 use App\Traits\MarkTabulationTrait;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -12,10 +11,6 @@ use Livewire\Component;
 class AcademicYearResultTabulation extends Component
 {
     use MarkTabulationTrait;
-
-    public $section;
-
-    public $sections;
 
     public $classes;
 
@@ -33,84 +28,63 @@ class AcademicYearResultTabulation extends Component
 
     public function mount(MyClassService $myClassService)
     {
-        //get semester and use it to fetch all exams in semester
+        // Get academic year and use it to fetch all exams in the academic year
         $this->academicYear = auth()->user()->school->academicYear;
         $this->classes = $myClassService->getAllClasses();
 
-        //sets subjects etc if class isn't empty
+        // Sets subjects etc if class isn't empty
         if (!$this->classes->isEmpty()) {
             $this->class = $this->classes[0]->id;
-            $this->sections = $this->classes[0]->sections;
-            $this->updatedClass();
         }
     }
 
-    public function updatedClass()
+    public function tabulate(MyClass $myClass)
     {
-        //get instance of class
-        $class = app("App\Services\MyClass\MyClassService")->getClassById($this->class);
+        // Get all subjects in the class
+        $subjects = $myClass->subjects;
 
-        //get sections in class
-        $this->sections = $class->sections;
+        // Get all students in the class
+        $students = $myClass->students();
 
-        //set section if the fetched records aren't empty
-        $this->sections->count() ? $this->section = $this->sections[0]->id : $this->section = null;
-    }
+        // Get the class group
+        $classGroup = $myClass->classGroup;
 
-    public function tabulate(MyClass $myClass, $section)
-    {
-        $section = Section::find($section);
-
-        if ($section == null) {
-            $subjects = $myClass->subjects;
-
-            //get all students in class
-            $students = $myClass->students();
-
-            $classGroup = $myClass->classGroup;
-
-            $titleFor = $myClass->name;
-        } else {
-            //get all subjects in section
-            $subjects = $section->myClass->subjects;
-
-            //get all students in section
-            $students = $section->students();
-
-            $classGroup = $section->myClass->classGroup;
-
-            $titleFor = $section->name;
-        }
-
+        // Check if there are any subjects
         if ($subjects->isEmpty()) {
             $this->createdTabulation = false;
-
             return;
         }
 
-        $this->title = "Exam Marks For $titleFor in academic year ".auth()->user()->school->academicYear->name;
+        // Set the title for the tabulation
+        $this->title = "Exam Marks For " . $myClass->name . " in academic year " . auth()->user()->school->academicYear->name;
 
+        // Get all exam slots for the academic year
         $examSlots = collect();
         $this->academicYear->load('semesters')->semesters->each(function ($semester) use (&$examSlots) {
             return $examSlots = $examSlots->merge($semester->load('examSlots')->examSlots);
         });
 
+        // Tabulate marks
         $this->tabulatedRecords = $this->tabulateMarks($classGroup, $subjects, $students, $examSlots);
 
+        // Set tabulation status
         $this->createdTabulation = true;
     }
 
-    //print function
-
+    // Print function
     public function print()
     {
-        //used pdf class directly
-        $pdf = Pdf::loadView('pages.exam.print-exam-tabulation', ['tabulatedRecords' => $this->tabulatedRecords, 'totalMarksAttainableInEachSubject' => $this->totalMarksAttainableInEachSubject, 'subjects' => $this->subjects])->output();
+        // Load the PDF view
+        $pdf = Pdf::loadView('pages.exam.print-exam-tabulation', [
+            'tabulatedRecords' => $this->tabulatedRecords,
+            'totalMarksAttainableInEachSubject' => $this->totalMarksAttainableInEachSubject,
+            'subjects' => $this->subjects
+        ])->output();
 
-        //save as pdf
+        // Save as PDF
         return response()->streamDownload(
             fn () => print($pdf),
-            'result-tabiulation.pdf'
+            'result-tabulation.pdf'
         );
     }
 

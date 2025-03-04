@@ -7,7 +7,7 @@
     @php
         $heads = $subjects->pluck('name');
     @endphp
-    {{--foreach displaus records in order of class positions--}}
+    {{--foreach displays records in order of class positions--}}
     <div class="overflow-scroll beautify-scrollbar text-center">
         <table class="w-full" id="mark-tabulation">
             <thead class="">

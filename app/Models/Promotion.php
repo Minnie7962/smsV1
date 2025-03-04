@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Promotion extends Model
 {
@@ -13,7 +12,7 @@ class Promotion extends Model
     protected $fillable = [
         'old_class_id',
         'new_class_id',
-        'old_section_id',
+        'academic_year_id',
         'new_section_id',
         'academic_year_id',
         'students',
@@ -26,30 +25,20 @@ class Promotion extends Model
 
     public function getLabelAttribute()
     {
-        return "{$this->oldClass->name} - {$this->oldSection->name} to {$this->newClass->name} - {$this->newSection->name} year: {$this->academicYear->start_year} - {$this->academicYear->stop_year}";
+        return "{$this->oldClass->name} to {$this->newClass->name} year: {$this->academicYear->start_year} - {$this->academicYear->stop_year}";
     }
 
-    public function oldClass(): BelongsTo
+    public function oldClass()
     {
         return $this->belongsTo(MyClass::class, 'old_class_id');
     }
 
-    public function newClass(): BelongsTo
+    public function newClass()
     {
         return $this->belongsTo(MyClass::class, 'new_class_id');
     }
 
-    public function oldSection(): BelongsTo
-    {
-        return $this->belongsTo(Section::class, 'old_section_id');
-    }
-
-    public function newSection(): BelongsTo
-    {
-        return $this->belongsTo(Section::class, 'new_section_id');
-    }
-
-    public function academicYear(): BelongsTo
+    public function academicYear()
     {
         return $this->belongsTo(AcademicYear::class, 'academic_year_id');
     }

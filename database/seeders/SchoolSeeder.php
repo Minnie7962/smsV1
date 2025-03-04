@@ -19,14 +19,9 @@ class SchoolSeeder extends Seeder
             ['id' => 1],
             [
                 'name'     => 'សាលាបឋមសិក្សាតាម៉ា',
-                'address'  => 'Your school address',
                 'code'     => Str::Random(10),
                 'initials' => 'TPS',
             ]
         );
-
-        School::factory()
-            ->count(3)
-            ->create();
     }
 }

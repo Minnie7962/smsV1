@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card"> 
     <div class="card-header">
         <h2 class="card-title">Students list</h2>
     </div>
@@ -10,8 +10,8 @@
             <livewire:datatable :model="App\Models\User::class" uniqueId="students-list-table" :filters="[['name' => 'students'], ['name' => 'inSchool'], ['name' => 'orderBy' , 'arguments' => ['name']], ['name' => 'has', 'arguments' => ['StudentRecord']], ['name' => 'with' , 'arguments' => ['studentRecord','studentRecord.section', 'studentRecord.myClass']]]" :columns="[
                 ['property' => 'name'] , 
                 ['property' => 'admission_number' ,'relation' => 'studentRecord'] , 
+                ['property' => 'gender', 'name' => 'Gender'],                
                 ['property' => 'name', 'name' => 'Class' ,'relation' => 'studentRecord.myClass'] , 
-                ['property' => 'name', 'name' => 'section' ,'relation' => 'studentRecord.section'] , 
                 ['property' => 'locked', 'name' => 'Locked' , 'type' => 'boolean-switch', 'action' => 'user.lock-account', 'field' => 'lock', 'true-statement' => 'Locked', 'false-statement' => 'Unlocked',  'can' => 'lock user'],
                 ['type' => 'dropdown', 'name' => 'actions','links' => [
                     ['href' => 'students.edit', 'text' => 'Manage Profile', 'icon' => 'fas fa-pen', 'can' => 'update student'],
@@ -31,9 +31,9 @@
             ['name' => 'with' , 'arguments' => ['studentRecord','studentRecord.section', 'studentRecord.myClass']]]" 
             :columns="[
                 ['property' => 'name'] , 
+                ['property' => 'gender', 'name' => 'Gender'],
                 ['property' => 'admission_number' ,'relation' => 'studentRecord'] , 
                 ['property' => 'name', 'name' => 'Class' ,'relation' => 'studentRecord.myClass'] , 
-                ['property' => 'name', 'name' => 'section' ,'relation' => 'studentRecord.section'] , 
                 ['type' => 'dropdown', 'name' => 'actions','links' => [
                     ['href' => 'students.show', 'text' => 'View', 'icon' => 'fas fa-eye',  ],
                 ]],

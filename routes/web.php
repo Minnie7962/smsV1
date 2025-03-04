@@ -4,13 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\MyClassController;
 use App\Http\Controllers\ClassGroupController; 
-use App\Http\Controllers\SectionController;
 use App\Http\Controllers\AccountApplicationController;
 use App\Http\Controllers\SemesterController;
-use App\Http\Controllers\FeeCategoryController; 
-use App\Http\Controllers\FeeInvoiceRecordController;
-use App\Http\Controllers\FeeInvoiceController;
-use App\Http\Controllers\FeeController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\TimetableController;
 use App\Http\Controllers\CustomTimetableItemController; 
@@ -22,7 +17,6 @@ use App\Http\Controllers\GradeSystemController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\ParentController;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\NoticeController;
@@ -76,9 +70,6 @@ Route::middleware('auth:sanctum', 'verified', 'App\Http\Middleware\PreventLockAc
         //class groups routes
         Route::resource('class-groups', ClassGroupController::class);
 
-        //sections routes
-        Route::resource('sections', SectionController::class);
-
         Route::middleware(['App\Http\Middleware\EnsureAcademicYearIsSet', 'App\Http\Middleware\CreateCurrentAcademicYearRecord'])->group(function () {
             Route::get('account-applications/rejected-applications', ['App\Http\Controllers\AccountApplicationController', 'rejectedApplicationsView'])->name('account-applications.rejected-applications');
 
@@ -109,21 +100,7 @@ Route::middleware('auth:sanctum', 'verified', 'App\Http\Middleware\PreventLockAc
             Route::post('semesters/set', ['App\Http\Controllers\SemesterController', 'setSemester'])->name('semesters.set-semester');
 
             Route::middleware(['App\Http\Middleware\EnsureSemesterIsSet'])->group(function () {
-                //fee categories routes
-                Route::resource('fees/fee-categories', FeeCategoryController::class);
-
-                //fee invoice record routes
-                Route::post('fees/fee-invoices/fee-invoice-records/{fee_invoice_record}/pay', ['App\Http\Controllers\FeeInvoiceRecordController', 'pay'])->name('fee-invoices-records.pay');
-                Route::resource('fees/fee-invoices/fee-invoice-records', FeeInvoiceRecordController::class);
-
-                //fee incvoice routes
-                Route::get('fees/fee-invoices/{fee_invoice}/pay', ['App\Http\Controllers\FeeInvoiceController', 'payView'])->name('fee-invoices.pay');
-                Route::get('fees/fee-invoices/{fee_invoice}/print', ['App\Http\Controllers\FeeInvoiceController', 'print'])->name('fee-invoices.print');
-                Route::resource('fees/fee-invoices', FeeInvoiceController::class);
-
-                //fee routes
-                Route::resource('fees', FeeController::class);
-
+                
                 //syllabi route
                 Route::resource('syllabi', SyllabusController::class);
 
@@ -180,8 +157,6 @@ Route::middleware('auth:sanctum', 'verified', 'App\Http\Middleware\PreventLockAc
         //teacher routes
         Route::resource('teachers', TeacherController::class);
 
-        //parent routes
-        Route::resource('parents', ParentController::class);
         Route::get('parents/{parent}/assign-student-to-parent', ['App\Http\Controllers\ParentController', 'assignStudentsView'])->name('parents.assign-student');
         Route::post('parents/{parent}/assign-student-to-parent', ['App\Http\Controllers\ParentController', 'assignStudent']);
 

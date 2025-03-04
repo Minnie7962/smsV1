@@ -22,10 +22,16 @@ class SectionSeeder extends Seeder
 
         Section::firstOrCreate([
             'id'          => 2,
-            'name'        => 'Ruby',
+            'name'        => 'Silver',
             'my_class_id' => 1,
         ]);
 
-        Section::factory()->count(10)->create();
+        Section::firstOrCreate([
+            'id'          => 3,
+            'name'        => 'Bronze',
+            'my_class_id' => 1,
+        ]);
+        
+        // Section::factory()->count(10)->create();
     }
 }

@@ -12,9 +12,9 @@
             ['property' => 'description'],
             ['property' => 'total_marks'],
             ['name' => 'Actions', 'type' => 'dropdown',  'can' => 'update exam slot'  , 'links' => [
-                ['href' => 'exam-slots.edit', 'text' => 'edit', 'icon' => 'fas fa-cog', 'pre-route-parameters' => [$exam->id]],
+                ['text' => 'edit', 'icon' => 'fas fa-cog'],
             ]],
-            ['type' => 'delete', 'name' => 'Delete', 'action' => 'exam-slots.destroy', 'pre-route-parameters' => [$exam->id],  'can' => 'delete exam slot']
+            ['type' => 'delete', 'name' => 'Delete', 'action' => 'exam-slots.destroy', 'can' => 'delete exam slot']
         ]"/>
     </div>
 </div>

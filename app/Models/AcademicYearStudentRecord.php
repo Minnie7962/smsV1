@@ -31,12 +31,4 @@ class AcademicYearStudentRecord extends Pivot
     {
         return $this->belongsTo(MyClass::class, 'my_class_id', 'id');
     }
-
-    /**
-     * Get the section that owns the AcademicYearStudentRecord.
-     */
-    public function section(): BelongsTo
-    {
-        return $this->belongsTo(Section::class, 'section_id', 'id');
-    }
 }

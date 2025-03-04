@@ -8,10 +8,9 @@
         <x-loading-spinner wire:target="exam"/>
         <x-loading-spinner wire:target="class"/>
         <x-loading-spinner wire:target="subject"/>
-        <x-loading-spinner wire:target="section"/>
        
         {{-- form for selecting exam record to display --}}
-        <form wire:submit="fetchExamRecords('{{$exam}}','{{$section}}','{{$subject}}')" class="md:grid gap-4 grid-cols-4 grid-rows-1  my-3 items-end">
+        <form wire:submit="fetchExamRecords('{{$exam}}','{{$subject}}')" class="md:grid gap-4 grid-cols-3 grid-rows-1  my-3 items-end">
             <x-select id="exam-id" name="exam_id" label="Select exam" wire:model.live="exam">
                 @foreach ($exams as $item)
                     <option value="{{$item['id']}}">{{$item['name']}}</option>
@@ -22,17 +21,10 @@
                     <option value="{{$item['id']}}">{{$item['name']}}</option>
                 @endforeach
             </x-select>
-            <x-select id="subject" name='subject' id="subject" label="Select subject"   wire:model.live="subject" >
+            <x-select id="subject" name='subject' label="Select subject" wire:model.live="subject" >
                 @isset($subjects)
                     @foreach ($subjects as $subject)
                         <option value="{{$subject['id']}}">{{$subject['name']}}</option>
-                    @endforeach
-                @endisset
-            </x-select>
-            <x-select id="section" name="section" label="Section"  wire:model.live="section">
-                @isset($sections)
-                    @foreach ($sections as $item)
-                        <option value="{{$item['id']}}">{{$item['name']}}</option>
                     @endforeach
                 @endisset
             </x-select>
@@ -51,7 +43,6 @@
                     <div class="md:flex justify-between ">
                         <p class="">Exam: {{$examSelected->name}}</p>
                         <p class="">Class: {{$classSelected->name}}</p>
-                        <p class="">Section: {{$sectionSelected->name}}</p>
                         <p class="">Subject: {{$subjectSelected->name}}</p>
                     </div>
 
@@ -78,7 +69,6 @@
                                 @endforeach
                                 <input type="hidden" name="subject_id" value="{{$subjectSelected->id}}">
                                 <input type="hidden" name="user_id" value="{{$student->id}}">
-                                <input type="hidden" name="section_id" value="{{$sectionSelected->id}}">
                                 @csrf
                                 @can('update exam record')
                                     

@@ -13,7 +13,4 @@
     
     @livewire('show-student-profile', ['student' => $student])
 
-    @can('viewAny', App\Models\FeeInvoice::class)
-        @livewire('list-student-fee-invoices', ['student' => $student])
-    @endcan
 @endsection

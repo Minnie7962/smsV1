@@ -3,7 +3,7 @@
         <h3 class="card-title">Edit exam {{$exam->id}}</h3>
     </div>
     <div class="card-body">
-        <form action="{{route('exams.update',$exam)}}" autocomplete="off" method="POST" class="md:w-1/2">
+        <form autocomplete="off" method="POST" class="md:w-1/2">
             <x-display-validation-errors/>
             <x-input id="name" name="name" label="Exam Name" placeholder="Enter semester name"  value="{{$exam->name}}"/>
             <x-textarea id="description" name="description" label="Description" placeholder="Enter description" >{{$exam->description}}</x-adminlte-textarea>

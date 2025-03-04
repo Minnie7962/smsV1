@@ -10,6 +10,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use App\Models\Student;
+use App\Models\StudentRecord;
+use App\Models\ParentRecord;
 
 class StudentController extends Controller
 {

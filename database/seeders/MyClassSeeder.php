@@ -31,7 +31,7 @@ class MyClassSeeder extends Seeder
         ]);
         MyClass::firstOrcreate([
             'id'             => 4,
-            'name'           => 'ថ្Grade3',
+            'name'           => 'Grade3',
             'class_group_id' => 1,
         ]);
         MyClass::firstOrcreate([
@@ -64,6 +64,6 @@ class MyClassSeeder extends Seeder
             'name'           => 'Library',
             'class_group_id' => 1,
         ]);
-        MyClass::factory()->count(10)->create();
+        // MyClass::factory()->count(10)->create();
     }
 }

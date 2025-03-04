@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -18,7 +19,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->delete();
-
+        
         $superAdmin = User::firstOrCreate([
             'id'                => 1,
             'name'              => 'Admin Ry',
@@ -28,8 +29,8 @@ class UserSeeder extends Seeder
             'address'           => 'super admin street',
             'birthday'          => '22/04/04',
             'nationality'       => 'khmer',
-            'state'             => 'bantey mean chey',
-            'city'              => 'seri sophorn',
+            'state'             => 'bantey meanchey',
+            'city'              => 'poipet',
             'blood_group'       => 'o-',
             'email_verified_at' => now(),
             'gender'            => 'female',
@@ -47,7 +48,7 @@ class UserSeeder extends Seeder
             'address'           => 'admin street',
             'birthday'          => '22/04/04',
             'nationality'       => 'khmer',
-            'state'             => 'bantey mean chey',
+            'state'             => 'bantey meanchey',
             'city'              => 'seri sophorn',
             'blood_group'       => 'B+',
             'email_verified_at' => now(),
@@ -66,7 +67,7 @@ class UserSeeder extends Seeder
             'address'           => 'teacher street',
             'birthday'          => '22/04/04',
             'nationality'       => 'khmer',
-            'state'             => 'bantey mean chey',
+            'state'             => 'bantey meanchey',
             'city'              => 'seri sophorn',
             'blood_group'       => 'B+',
             'email_verified_at' => now(),
@@ -89,7 +90,7 @@ class UserSeeder extends Seeder
             'address'           => 'student street',
             'birthday'          => '22/04/04',
             'nationality'       => 'khmer',
-            'state'             => 'bantey mean chey',
+            'state'             => 'bantey meanchey',
             'city'              => 'seri sophorn',
             'blood_group'       => 'B+',
             'email_verified_at' => now(),
@@ -97,7 +98,6 @@ class UserSeeder extends Seeder
         ]);
         $student->studentRecord()->create([
             'my_class_id'      => 1,
-            'section_id'       => 1,
             'admission_date'   => '22/04/04',
             'is_graduated'     => false,
             'admission_number' => Str::random(10),
@@ -113,7 +113,7 @@ class UserSeeder extends Seeder
             'address'           => 'parent street',
             'birthday'          => '22/04/04',
             'nationality'       => 'khmer',
-            'state'             => 'bantey mean chey',
+            'state'             => 'bantey meanchey',
             'city'              => 'seri sophorn',
             'blood_group'       => 'B+',
             'email_verified_at' => now(),
@@ -133,7 +133,7 @@ class UserSeeder extends Seeder
             'address'           => 'accountant street',
             'birthday'          => '22/04/04',
             'nationality'       => 'khmer',
-            'state'             => 'bantey mean chey',
+            'state'             => 'bantey meanchey',
             'city'              => 'seri sophorn',
             'blood_group'       => 'B+',
             'email_verified_at' => now(),
@@ -151,7 +151,7 @@ class UserSeeder extends Seeder
             'address'           => 'librarian street',
             'birthday'          => '22/04/04',
             'nationality'       => 'khmer',
-            'state'             => 'bantey mean chey',
+            'state'             => 'bantey meanchey',
             'city'              => 'seri sophorn',
             'blood_group'       => 'B+',
             'email_verified_at' => now(),

@@ -203,16 +203,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(AccountApplication::class);
     }
 
-    /**
-     * Get all of the feeInvoices for the User.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function feeInvoices(): HasMany
-    {
-        return $this->hasMany(FeeInvoice::class);
-    }
-
     //get first name
     public function firstName()
     {
