@@ -1,92 +1,97 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\StudentRecord;
 use App\Models\User;
+use App\Models\ClassGroup;
+use App\Models\AcademicYear;
 use App\Models\MyClass;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class StudentSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        // Delete all records from the student records table
-        StudentRecord::query()->delete();
+        // Disable foreign key constraints
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        StudentRecord::truncate();
+        User::whereHas('roles', function ($query) {
+            $query->where('name', 'student');
+        })->delete();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Define the number of students to create
-        $numberOfStudents = 100; // Set to 100
-        
         $genders = ['Male', 'Female'];
         $bloodGroups = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
-        
-        $maleNames = ['Sok', 'Chan', 'Sovann', 'Piseth', 'Vuth', 'Sokha', 'Sokchea', 'Sokheng', 'Sokly', 'Sokna', 'Sokny', 'Sokun', 'Choun', 'Sokvichvichkunvuth', 'Sokvichvichly', 'Chin', 'Sokvichvichny', 'Sokvichvichun', 'Thou', 'Pha', 'Sokvichvichuntheara', 'Sokvichvichunthida', 'Sokvichvichunthorn', 'Sokvichvichunthy', 'Sokvichvichunvichet', 'Sokvichvichunvuth', 'Sokvichvichvichet', 'Sokvichvichvichey', 'Sokvichvichvichhai', 'Sokvichvichvichhay', 'Sokvichvichvichheka', 'Sokvichvichvichheng', 'Sokvichvichvichhong', 'Sokvichvichvichhor', 'Sokvichvichvichhour', 'Sokvichvichvichka', 'Sokvichvichvichkai', 'Sokvichvichvichkha', 'Sokvichvichvichkheang'];
-        $femaleNames = ['Srey', 'Dara', 'Sokunthea', 'Nary', 'Sothea', 'Sophea', 'Lin', 'Soriya', 'Bopha', 'Ryna', 'Lika', 'Laivann', 'Porly', 'Nara', 'Lina', 'Sina', 'Sreyneang', 'Sreynich', 'Sreynak', 'Dalim', 'Sreyneat', 'Sreyneth', 'Sreynich', 'Sreynit', 'Sreynich', 'Pina', 'Nisa', 'Vichaka', 'Sopheap', 'Sokha', 'Sokchea', 'Sokheng', 'Sokly', 'Sokna', 'Sokny', 'Sokun', 'Sokunthea', 'Sokuntheary', 'Sokuntheara', 'Sokunthida', 'Sokunthorn', 'Sokunthy', 'Sokunvichet', 'Sokunvuth', 'Sokvichet', 'Sokvichey', 'Sokvichhai', 'Sokvichhay', 'Sokvichheka', 'Sokvichheng', 'Sokvichhong', 'Sokvichhor', 'Sokvichhour', 'Sokvichka', 'Sokvichkai', 'Sokvichkha', 'Sokvichkheang', 'Sokvichkheng', 'Sokvichkhorn', 'Sokvichkhy', 'Sokvichkong', 'Sokvichkorn', 'Sokvichkun', 'Sokvichkunn', 'Sokvichkunthea', 'Sokvichkuntheary', 'Sokvichkuntheara', 'Sokvichkunthida', 'Sokvichkunthorn', 'Sokvichkunthy', 'Sokvichkunvichet', 'Sokvichkunvuth', 'Sokvichly', 'Sokvichna', 'Sokvichny', 'Sokvichun', 'Sokvichunthea', 'Sokvichuntheary', 'Sokvichuntheara', 'Sokvichunthida', 'Sokvichunthorn', 'Sokvichunthy', 'Sokvichunvichet', 'Sokvichunvuth', 'Sokvichvichet', 'Sokvichvichey', 'Sokvichvichhai', 'Sokvichvichhay', 'Sokvichvichheka', 'Sokvichvichheng', 'Sokvichvichhong', 'Sok', 'Makara', 'Sivei', 'Lyna', 'Janna'];
-        $lastNames = ['Pheng', 'Chhouk', 'Soun', 'Meas', 'Sokha', 'Hout', 'Ly', 'Ry', 'Lim', 'Lou', 'Sok', 'Kim', 'Thal', 'Sim', 'Ou','Ang', 'Bo'];
-        $locations = [
-            'Banteay Meanchey', 'Battambang', 'Kampong Cham', 'Kampong Chhnang', 'Kampong Speu', 
-            'Kampong Thom', 'Kampot', 'Kandal', 'Kep', 'Koh Kong', 'Kratie', 'Mondulkiri', 
-            'Ottar Meanchey', 'Pailin', 'Phnom Penh', 'Sihanoukville', 'Preah Vihear', 
-            'Prey Veng', 'Pursat', 'Ratanakiri', 'Siem Reap', 'Stung Treng', 'Svay Rieng', 
-            'Takeo', 'Tboung Khmum'
-        ];
-        
-        // Get all class IDs
-        $classIds = MyClass::pluck('id')->toArray();
+        $classGroups = ClassGroup::all();
+        $classes = MyClass::all();
+        $academicYears = AcademicYear::all();
 
-        // Create 100 random students
-        for ($i = 0; $i < $numberOfStudents; $i++) {
+        if ($classGroups->isEmpty() || $classes->isEmpty() || $academicYears->isEmpty()) {
+            throw new \Exception('Ensure class groups, classes, and academic years are seeded first.');
+        }
+
+        $locations = ['Banteay Meanchey', 'Battambang', 'Kampong Cham', 'Phnom Penh', 'Siem Reap'];
+        $phonePrefixes = ['011', '012', '015', '070', '078', '096', '097'];
+        $maleNames = ['Sok', 'Chan', 'Sovann', 'Piseth', 'Vuth'];
+        $femaleNames = ['Srey', 'Dara', 'Sokunthea', 'Nary', 'Sothea'];
+        $lastNames = ['Pheng', 'Chhouk', 'Soun', 'Meas', 'Kim'];
+
+        for ($i = 0; $i < 250; $i++) {
             $gender = $genders[array_rand($genders)];
             $firstName = $gender === 'Male' ? $maleNames[array_rand($maleNames)] : $femaleNames[array_rand($femaleNames)];
             $lastName = $lastNames[array_rand($lastNames)];
+            $fullName = "$firstName $lastName";
             $email = strtolower($firstName . '.' . $lastName . Str::random(3) . '@tama.edu.kh');
-            
             $address = $locations[array_rand($locations)];
-            $state = $locations[array_rand($locations)];
-            $city = $locations[array_rand($locations)];
-            
-            // Generate a random birthday for a primary school student (ages 5 to 11)
-            $birthYear = rand(2014, 2019);
-            $birthMonth = rand(1, 12);
-            $birthDay = rand(1, 28);
-            
-            // Assign a random blood group
+            $birthDate = date('Y-m-d', strtotime(rand(2014, 2019) . '-' . rand(1, 12) . '-' . rand(1, 28)));
             $bloodGroup = $bloodGroups[array_rand($bloodGroups)];
             
+            $contactNumber = $phonePrefixes[array_rand($phonePrefixes)] . rand(1000000, 9999999);
+            $fatherPhone = $phonePrefixes[array_rand($phonePrefixes)] . rand(1000000, 9999999);
+            $motherPhone = $phonePrefixes[array_rand($phonePrefixes)] . rand(1000000, 9999999);
+            $emergencyPhone = $phonePrefixes[array_rand($phonePrefixes)] . rand(1000000, 9999999);
+
+            // Create User
             $user = User::create([
-                'name' => "$firstName $lastName",
+                'name' => $fullName,
                 'email' => $email,
                 'password' => Hash::make('password'),
                 'school_id' => 1,
                 'address' => $address,
-                'birthday' => "$birthYear-$birthMonth-$birthDay",
+                'birthday' => $birthDate,
                 'nationality' => 'Khmer',
-                'state' => $state,
-                'city' => $city,
-                'blood_group' => $bloodGroup, // Random blood group
+                'state' => $address,
+                'city' => $address,
+                'blood_group' => $bloodGroup,
                 'email_verified_at' => now(),
                 'gender' => $gender,
             ]);
-            
-            // Assign the 'student' role
             $user->assignRole('student');
-            
-            // Create a student record for the user
+
+            // Create Student Record
             StudentRecord::create([
                 'user_id' => $user->id,
-                'my_class_id' => $classIds[array_rand($classIds)],
-                'admission_date' => '2023-04-22',
+                'class_group_id' => $classGroups->random()->id,
+                'class_id' => $classes->random()->id,
+                'academic_year_id' => $academicYears->random()->id,
+                'admission_date' => now(),
                 'is_graduated' => false,
                 'admission_number' => 'TPS' . Str::random(5),
+                'contact_number' => $contactNumber,
+                'father_full_name' => 'Father ' . $firstName,
+                'father_phone_number' => $fatherPhone,
+                'mother_full_name' => 'Mother ' . $firstName,
+                'mother_phone_number' => $motherPhone,
+                'emergency_contact_name' => 'Emergency ' . $firstName,
+                'emergency_contact_relationship' => 'Relative',
+                'emergency_contact_number' => $emergencyPhone,
             ]);
         }
-
-        $this->command->info("{$numberOfStudents} student records seeded successfully.");
+        
+        $this->command->info("250 student records seeded successfully.");
     }
 }
